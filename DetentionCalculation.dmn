@@ -1,0 +1,688 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="https://kiegroup.org/dmn/_126476EE-A96F-4291-91E9-387C699B157E" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="_3056B5FF-6D55-4F96-AF9A-85EA20107F70" name="DetentionCalculation" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://kiegroup.org/dmn/_126476EE-A96F-4291-91E9-387C699B157E">
+  <dmn:extensionElements/>
+  <dmn:itemDefinition id="_D8B920F9-3A62-4E2E-8193-2BF76CC5FEE1" name="Prisoner" isCollection="false">
+    <dmn:itemComponent id="_2EAF7C5E-B9BB-4A79-B465-5A3AE7C4CB62" name="id" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_EA54B3A0-DB66-437B-9B32-B44FD5728C6D" name="detentions" isCollection="true">
+      <dmn:typeRef>Detention</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_55212F53-E844-47C2-A76F-EBDCCD5B3AA2" name="Title" isCollection="false">
+    <dmn:itemComponent id="_8EEFA5AF-2CBF-4F1D-B492-E1F89CED8857" name="name" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_B575E1D9-35CA-4B76-A2AE-E36268AB92F5" name="decisionDate" isCollection="false">
+      <dmn:typeRef>date</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_30A905C4-84B9-45F6-A331-C64B1295513B" name="totalDays" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_18F1CA7C-AB79-4C58-9089-7E22991555D1" name="priority" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_8478D8DD-0966-413E-A164-B4415EDD9744" name="Detention" isCollection="false">
+    <dmn:itemComponent id="_EA83942D-E749-4BD5-B0F0-C5865F660512" name="status" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+      <dmn:allowedValues kie:constraintType="enumeration" id="_A2236869-3D2C-4D94-8141-5E4A32B818D4">
+        <dmn:text>"executed", "inprogress", "pending"</dmn:text>
+      </dmn:allowedValues>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_789CD541-6FC9-450A-AE71-43CD4839E64F" name="titles" isCollection="true">
+      <dmn:typeRef>Title</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_BEC8DC6F-6A63-40B3-B6E5-E968A46B13A3" name="startDate" isCollection="false">
+      <dmn:typeRef>date</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_5D66BCFA-8AA0-42A1-9605-AD9F6E5FB531" name="endDate" isCollection="false">
+      <dmn:typeRef>date</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_C7CCC534-F2B1-4C7F-B803-0648163FA1E0" name="tTitleList" isCollection="true">
+    <dmn:typeRef>Title</dmn:typeRef>
+  </dmn:itemDefinition>
+  <dmn:decisionService id="_16DC0A80-1FBE-4D5D-9E0C-74CB2DE914F3" name="DetentionDS">
+    <dmn:extensionElements/>
+    <dmn:variable id="_9B58B65B-A054-48E5-A94D-2E04A68430E1" name="DetentionDS"/>
+    <dmn:outputDecision href="#_01DA6FFE-A82C-4160-BF05-01D886DC831D"/>
+    <dmn:encapsulatedDecision href="#_5A4F7801-FDF5-411D-AEC0-75D1166A5EFB"/>
+    <dmn:encapsulatedDecision href="#_68BDCBE0-10A0-486D-AF9F-0F13727DE83D"/>
+    <dmn:encapsulatedDecision href="#_D2A34E7B-3CEC-4906-AB65-FC0F30CD3A3D"/>
+    <dmn:inputData href="#_4E70F271-FF8D-4FEB-85E2-76763C9631DD"/>
+  </dmn:decisionService>
+  <dmn:inputData id="_4E70F271-FF8D-4FEB-85E2-76763C9631DD" name="Prisoner">
+    <dmn:extensionElements/>
+    <dmn:variable id="_7D4FCB76-9B61-4109-9A60-C47DD367A0DB" name="Prisoner" typeRef="Prisoner"/>
+  </dmn:inputData>
+  <dmn:decision id="_68BDCBE0-10A0-486D-AF9F-0F13727DE83D" name="SortedTitles">
+    <dmn:extensionElements/>
+    <dmn:variable id="_6B8796A3-2018-402E-B607-741EA8FAB7B6" name="SortedTitles" typeRef="Prisoner"/>
+    <dmn:informationRequirement id="_0ECB91A1-079A-4C85-B414-ACADDBF0255E">
+      <dmn:requiredDecision href="#_5A4F7801-FDF5-411D-AEC0-75D1166A5EFB"/>
+    </dmn:informationRequirement>
+    <dmn:knowledgeRequirement id="_66EEF678-5CEF-4609-93AF-E4EB9BCA54C8">
+      <dmn:requiredKnowledge href="#_E7C36C95-9B44-45DD-82E1-32398053AFB3"/>
+    </dmn:knowledgeRequirement>
+    <dmn:knowledgeRequirement id="_59E5820B-56E1-43C2-A358-7B8DE4514012">
+      <dmn:requiredKnowledge href="#_79DEAC9B-61ED-40C8-8D43-A854DB82486E"/>
+    </dmn:knowledgeRequirement>
+    <dmn:context id="_6B309067-F3FE-4130-9F83-3FEAE1F71353">
+      <dmn:contextEntry>
+        <dmn:variable id="_F4166903-DB12-4FF3-8087-62DA3424D44F" name="titles"/>
+        <dmn:literalExpression id="_8F90647E-41AB-484A-92EF-89B2DDE0580C">
+          <dmn:text>Detention.titles</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
+        <dmn:variable id="_C1B307CC-79AF-4F8E-A1A7-9BC70C99147B" name="titlesWithPriority"/>
+        <dmn:literalExpression id="_115FCD07-18A0-4625-94DE-E1200E5CBC2E">
+          <dmn:text>for title in titles return context put(title, "priority", Get Priority(title.name))</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
+        <dmn:variable id="_E67862CD-837C-4731-B744-6250C189D038" name="orderedTitles"/>
+        <dmn:literalExpression id="_5C8BB2DF-F9CF-42F8-A71D-A72EF34D9152">
+          <dmn:text>sort( titlesWithPriority, Sort Priority )</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
+        <dmn:literalExpression id="_1E4A57A1-164A-4913-B098-A85885DF6A9C">
+          <dmn:text>orderedTitles</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+    </dmn:context>
+  </dmn:decision>
+  <dmn:businessKnowledgeModel id="_E7C36C95-9B44-45DD-82E1-32398053AFB3" name="Sort Priority">
+    <dmn:extensionElements/>
+    <dmn:variable id="_40D53AF9-AE60-4E36-A959-03175AE1E590" name="Sort Priority" typeRef="boolean"/>
+    <dmn:encapsulatedLogic id="_29CADCAE-8EEF-47FD-86E3-C658E8341CC7" kind="FEEL">
+      <dmn:formalParameter id="_003FD459-AA02-42E4-8B16-1CF84198D545" name="title1" typeRef="Title"/>
+      <dmn:formalParameter id="_281DF9AD-E65A-4858-97B8-C54B598267FE" name="title2" typeRef="Title"/>
+      <dmn:context id="_8D9825D2-FAE1-4792-B7C0-CA98CF921EFA">
+        <dmn:contextEntry>
+          <dmn:variable id="_3DC67768-3A67-4F20-83A6-FDF0E9E1DFBF" name="title1HigherPriority" typeRef="boolean"/>
+          <dmn:literalExpression id="_3966A530-0463-4031-BF1E-929BF98D5AE6">
+            <dmn:text>if (title1.priority &lt; title2.priority) then true else if ((title1.priority = title2.priority) and (title1.decisionDate &lt; title2.decisionDate)) then true else false</dmn:text>
+          </dmn:literalExpression>
+        </dmn:contextEntry>
+        <dmn:contextEntry>
+          <dmn:literalExpression id="_14AC6443-174B-4FB0-AD60-71A129268E06">
+            <dmn:text>title1HigherPriority</dmn:text>
+          </dmn:literalExpression>
+        </dmn:contextEntry>
+      </dmn:context>
+    </dmn:encapsulatedLogic>
+  </dmn:businessKnowledgeModel>
+  <dmn:businessKnowledgeModel id="_79DEAC9B-61ED-40C8-8D43-A854DB82486E" name="Get Priority">
+    <dmn:extensionElements/>
+    <dmn:variable id="_C43C6390-B33E-479C-AA08-9005985E2D1B" name="Get Priority" typeRef="number"/>
+    <dmn:encapsulatedLogic id="_A676D7F1-2DE6-47F1-B9B4-0368F1E0BC7E" kind="FEEL">
+      <dmn:formalParameter id="_012C785A-FFD5-4F93-91A2-85CE7E066D3D" name="name" typeRef="string"/>
+      <dmn:decisionTable id="_5CE24D2A-8625-4BDF-8E25-81EDEEC6839B" hitPolicy="FIRST" preferredOrientation="Rule-as-Row">
+        <dmn:input id="_AD718F9D-8198-4EC3-A50D-D1C253976270">
+          <dmn:inputExpression id="_9B76ABEB-EB3D-4869-8E3B-864175E4DC4F" typeRef="string">
+            <dmn:text>name</dmn:text>
+          </dmn:inputExpression>
+        </dmn:input>
+        <dmn:output id="_DCD37985-3BF6-4EDA-A865-356294689C88"/>
+        <dmn:annotation name="annotation-1"/>
+        <dmn:rule id="_B5524BCD-89CC-454F-94D5-C8D350BFF29C">
+          <dmn:inputEntry id="_BA71098A-78D4-4559-8278-5D0EEA431AEE">
+            <dmn:text>"IVS"</dmn:text>
+          </dmn:inputEntry>
+          <dmn:outputEntry id="_CE3B94D6-D09A-4B2C-9CAA-735BD074C6DE">
+            <dmn:text>5</dmn:text>
+          </dmn:outputEntry>
+          <dmn:annotationEntry>
+            <dmn:text/>
+          </dmn:annotationEntry>
+        </dmn:rule>
+        <dmn:rule id="_88B69273-1D44-41BD-B8D8-87F0B6D41CD8">
+          <dmn:inputEntry id="_20B01478-6AC6-43CA-9420-7342426F40BC">
+            <dmn:text>"bewaring"</dmn:text>
+          </dmn:inputEntry>
+          <dmn:outputEntry id="_EF2D5283-623F-4859-8BD7-70E541014174">
+            <dmn:text>10</dmn:text>
+          </dmn:outputEntry>
+          <dmn:annotationEntry>
+            <dmn:text/>
+          </dmn:annotationEntry>
+        </dmn:rule>
+        <dmn:rule id="_024CBCE3-EFE2-4BE4-9A1F-E7552E4D6B40">
+          <dmn:inputEntry id="_488C4188-1EE3-4B98-905A-73FDE380BB4D">
+            <dmn:text>"GEVH"</dmn:text>
+          </dmn:inputEntry>
+          <dmn:outputEntry id="_22AE50D0-BDFD-4FF1-AEB8-DD03733A5C55">
+            <dmn:text>15</dmn:text>
+          </dmn:outputEntry>
+          <dmn:annotationEntry>
+            <dmn:text/>
+          </dmn:annotationEntry>
+        </dmn:rule>
+        <dmn:rule id="_40AA0AB3-3A18-4D85-9046-4CE33B36F772">
+          <dmn:inputEntry id="_58DB73AA-B2F4-415D-B8AC-BA5A6B374393">
+            <dmn:text>"GEV"</dmn:text>
+          </dmn:inputEntry>
+          <dmn:outputEntry id="_CB7E650D-452F-4231-BD65-3AA3E5337210">
+            <dmn:text>20</dmn:text>
+          </dmn:outputEntry>
+          <dmn:annotationEntry>
+            <dmn:text/>
+          </dmn:annotationEntry>
+        </dmn:rule>
+        <dmn:rule id="_939E8EDB-1A15-4487-B986-950E364FED74">
+          <dmn:inputEntry id="_CC194D74-7B7E-47D6-8600-AEC0D6BD468F">
+            <dmn:text>-</dmn:text>
+          </dmn:inputEntry>
+          <dmn:outputEntry id="_A1373631-FB1C-4E55-8A27-DFFE77C10C82">
+            <dmn:text>0</dmn:text>
+          </dmn:outputEntry>
+          <dmn:annotationEntry>
+            <dmn:text/>
+          </dmn:annotationEntry>
+        </dmn:rule>
+      </dmn:decisionTable>
+    </dmn:encapsulatedLogic>
+  </dmn:businessKnowledgeModel>
+  <dmn:decision id="_01DA6FFE-A82C-4160-BF05-01D886DC831D" name="UpdatedPrisonerTitles">
+    <dmn:extensionElements/>
+    <dmn:variable id="_46A0E1D9-95E8-43CF-99CC-28B28A8999C0" name="UpdatedPrisonerTitles" typeRef="Prisoner"/>
+    <dmn:informationRequirement id="_58CE10AF-79E8-4901-9A8C-49ED12D2BA33">
+      <dmn:requiredDecision href="#_5A4F7801-FDF5-411D-AEC0-75D1166A5EFB"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_7BFC4A7F-0894-44E9-BD8A-24220D3F9844">
+      <dmn:requiredDecision href="#_D2A34E7B-3CEC-4906-AB65-FC0F30CD3A3D"/>
+    </dmn:informationRequirement>
+    <dmn:context id="_C075161E-5F6E-4336-B891-EB0B4AE236C4">
+      <dmn:contextEntry>
+        <dmn:variable id="_029AA3B6-37CC-4DB7-ACFD-A546412D1D69" name="totalIncarcarationInDays" typeRef="number"/>
+        <dmn:literalExpression id="_540F3DB2-EC1D-4780-BE28-23753F0880A3">
+          <dmn:text>duration(now() - Detention.startDate).days</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
+        <dmn:variable id="_141CA943-B5C1-4DBC-B19B-4A4DF1413B70" name="titleDaysExecuted"/>
+        <dmn:literalExpression id="_9CBE27FA-19F7-46E1-A680-6A85DECC76D4">
+          <dmn:text>CalculatedTitles[daysExecuted &gt; 0].daysExecuted</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
+        <dmn:variable id="_E08C8ECB-50D1-41F5-9755-B981255D0E33" name="totalDaysExecuted" typeRef="number"/>
+        <dmn:literalExpression id="_F9920D30-5875-4E84-A5BA-EB3B60C844D3">
+          <dmn:text>sum(titleDaysExecuted)</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
+        <dmn:variable id="_5D831D82-3695-427B-9CE6-370F887739B4" name="periodInDays" typeRef="string"/>
+        <dmn:literalExpression id="_78C86D25-5B1E-49DE-9388-1698C841DFE9">
+          <dmn:text>"P" +  string(totalDaysExecuted) +  "D"</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
+        <dmn:variable id="_B7A0EF79-9AF6-443A-A830-0C7E3653C8B3" name="releaseDate" typeRef="date"/>
+        <dmn:literalExpression id="_416B493F-51AB-4BC9-A2C4-7EAFC5C82160">
+          <dmn:text>Detention.startDate + duration(periodInDays)</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
+        <dmn:variable id="_426552B2-F612-4541-BF7A-70157DDB53BC" name="updatedPrisonerEndDate"/>
+        <dmn:literalExpression id="_BF2B297F-A20A-4C21-AD3F-DE189B769688">
+          <dmn:text>context put (Detention, "endDate", releaseDate)</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
+        <dmn:variable id="_7EF70056-8C00-4B36-B1FC-CC342656C9AA" name="prisonerStatus" typeRef="string"/>
+        <dmn:literalExpression id="_5DB876FC-CAC9-4E2F-8292-6E8BBF0D0C4E">
+          <dmn:text>if releaseDate &lt; today() then "executed" else "in progress"</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
+        <dmn:variable id="_37065FC0-9951-4275-978E-12C4BF84AA70" name="updatedPrisonerStatus"/>
+        <dmn:literalExpression id="_AB578DF3-CE07-4580-92B1-538522A6ACBF">
+          <dmn:text>context put (updatedPrisonerEndDate, "status", prisonerStatus)</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
+        <dmn:variable id="_878B07C9-6439-42ED-BE58-7885517FB7C1" name="updatedPrisonerTitles"/>
+        <dmn:literalExpression id="_D5ECD29B-93A1-421E-9B12-80B62694189D">
+          <dmn:text>context put (updatedPrisonerStatus, "titles", CalculatedTitles)</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
+        <dmn:literalExpression id="_18F7FB28-6B08-40F0-AB81-293A990058E8">
+          <dmn:text>updatedPrisonerTitles</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+    </dmn:context>
+  </dmn:decision>
+  <dmn:decision id="_5A4F7801-FDF5-411D-AEC0-75D1166A5EFB" name="Detention">
+    <dmn:extensionElements/>
+    <dmn:variable id="_BFC12F4B-0D3D-4DB9-BD26-F9F24C905A83" name="Detention"/>
+    <dmn:informationRequirement id="_4BF568DE-AD5D-4863-A916-AE5542A08827">
+      <dmn:requiredInput href="#_4E70F271-FF8D-4FEB-85E2-76763C9631DD"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="_5B017FBD-66FE-452E-B3FB-B291D0BF8255">
+      <dmn:text>Prisoner.detentions[1]</dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="_D2A34E7B-3CEC-4906-AB65-FC0F30CD3A3D" name="CalculatedTitles">
+    <dmn:extensionElements/>
+    <dmn:variable id="_7060915C-2A99-43DF-B828-DF9513B4A420" name="CalculatedTitles" typeRef="tTitleList"/>
+    <dmn:informationRequirement id="_15A62071-9662-4A58-B4AD-A706011BB2C4">
+      <dmn:requiredDecision href="#_68BDCBE0-10A0-486D-AF9F-0F13727DE83D"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_E92F6811-DC59-4701-B30B-38BFDA2667EC">
+      <dmn:requiredDecision href="#_5A4F7801-FDF5-411D-AEC0-75D1166A5EFB"/>
+    </dmn:informationRequirement>
+    <dmn:knowledgeRequirement id="_B6CED395-8D56-4913-94D2-F6B5E76EEFEE">
+      <dmn:requiredKnowledge href="#_99FD8553-666A-493E-B71F-A89D86F2E1AD"/>
+    </dmn:knowledgeRequirement>
+    <dmn:invocation id="_5119C2F8-FF45-453A-BC99-BA1C0A7BEBAE">
+      <dmn:literalExpression id="_DD3E9F7B-C8BC-467F-B69B-90DB39604CE1">
+        <dmn:text>SetTitles</dmn:text>
+      </dmn:literalExpression>
+      <dmn:binding>
+        <dmn:parameter id="_4C81A90C-33C0-4A72-AB68-8EFD80EE249B" name="titles" typeRef="tTitleList"/>
+        <dmn:literalExpression id="_13B6D596-7D62-448F-A6D6-D7D3BBB995D3">
+          <dmn:text>SortedTitles</dmn:text>
+        </dmn:literalExpression>
+      </dmn:binding>
+      <dmn:binding>
+        <dmn:parameter id="_E1340663-1587-4661-B41E-A6F23D858F06" name="startDate" typeRef="date"/>
+        <dmn:literalExpression id="_AFCD7C5E-E9CC-4FF4-948A-C6B1FC38CE4A">
+          <dmn:text>Detention.startDate</dmn:text>
+        </dmn:literalExpression>
+      </dmn:binding>
+      <dmn:binding>
+        <dmn:parameter id="_7DD63D0B-770F-465E-98F7-002B854F1384" name="updatedTitles" typeRef="tTitleList"/>
+        <dmn:literalExpression id="_A678254A-2A9C-43D5-AFC4-84A37ADC555D">
+          <dmn:text>[]</dmn:text>
+        </dmn:literalExpression>
+      </dmn:binding>
+    </dmn:invocation>
+  </dmn:decision>
+  <dmn:businessKnowledgeModel id="_99FD8553-666A-493E-B71F-A89D86F2E1AD" name="SetTitles">
+    <dmn:extensionElements/>
+    <dmn:variable id="_CE29C31B-EE7D-48E0-97E1-0858F1860EDB" name="SetTitles" typeRef="tTitleList"/>
+    <dmn:encapsulatedLogic id="_9FAD377E-3536-47B7-85C3-9038E701C987" kind="FEEL">
+      <dmn:formalParameter id="_D33C0819-7FF0-4460-8459-5071CE3165D0" name="titles" typeRef="tTitleList"/>
+      <dmn:formalParameter id="_DF68CFC5-9281-469E-8B80-CEAD12CBC944" name="startDate" typeRef="date"/>
+      <dmn:formalParameter id="_CCF3A1BC-578D-4C96-A6E8-6DCDF5C85741" name="updatedTitles" typeRef="tTitleList"/>
+      <dmn:context id="_DDE9B4DA-D836-4F0E-BDD3-31EAC89F668A">
+        <dmn:contextEntry>
+          <dmn:variable id="_8E05F0EC-9472-4538-8FAF-D6EE4DEDF31D" name="title" typeRef="Title"/>
+          <dmn:literalExpression id="_7126A1C2-C6E9-40E1-9EA6-A95D8A96BA19">
+            <dmn:text>titles[1]</dmn:text>
+          </dmn:literalExpression>
+        </dmn:contextEntry>
+        <dmn:contextEntry>
+          <dmn:variable id="_46048C5F-1903-459A-B0E2-5F34226AC237" name="daysExecuted" typeRef="number"/>
+          <dmn:literalExpression id="_0E7AED3F-4670-4197-BB31-7A2C5887DD80">
+            <dmn:text>title.totalDays</dmn:text>
+          </dmn:literalExpression>
+        </dmn:contextEntry>
+        <dmn:contextEntry>
+          <dmn:variable id="_FA07756C-5120-4EFA-BF9B-5DDD57BE4A40" name="periodInDays" typeRef="string"/>
+          <dmn:literalExpression id="_75A55F26-4954-4C5F-846F-44B15CFEEAB6">
+            <dmn:text>"P" +  string(daysExecuted) +  "D"</dmn:text>
+          </dmn:literalExpression>
+        </dmn:contextEntry>
+        <dmn:contextEntry>
+          <dmn:variable id="_E603B06C-72A2-474E-80F9-C29670D0E6D8" name="endDate" typeRef="date"/>
+          <dmn:literalExpression id="_79C1CF13-0EBA-45A2-8CE7-3865F67D06DC">
+            <dmn:text>startDate + duration(periodInDays)</dmn:text>
+          </dmn:literalExpression>
+        </dmn:contextEntry>
+        <dmn:contextEntry>
+          <dmn:variable id="_C66AEC56-6407-4C1E-AFE5-77ED81DB2E29" name="updatedTitle" typeRef="Title"/>
+          <dmn:context id="_E493D012-3CAB-4A9A-83F5-FB2B45B17A30">
+            <dmn:contextEntry>
+              <dmn:variable id="_1B02441B-A0EA-4FFE-929A-044E94F72234" name="name" typeRef="string"/>
+              <dmn:literalExpression id="_980AA359-21DF-44A1-B452-C2D1F66BE1AE">
+                <dmn:text>title.name</dmn:text>
+              </dmn:literalExpression>
+            </dmn:contextEntry>
+            <dmn:contextEntry>
+              <dmn:variable id="_72DB575A-6E2D-4FB7-958A-8B590F0AFAF9" name="decisionDate" typeRef="date"/>
+              <dmn:literalExpression id="_2516E488-AA5D-4B01-9DDA-F9F6F5D4A0A2">
+                <dmn:text>title.decisionDate</dmn:text>
+              </dmn:literalExpression>
+            </dmn:contextEntry>
+            <dmn:contextEntry>
+              <dmn:variable id="_FD70A8E4-2202-4546-AD4E-DC2090891703" name="totalDays" typeRef="number"/>
+              <dmn:literalExpression id="_0FE6EB80-EC7F-46EF-B22D-FA0EB924A139">
+                <dmn:text>title.totalDays</dmn:text>
+              </dmn:literalExpression>
+            </dmn:contextEntry>
+            <dmn:contextEntry>
+              <dmn:variable id="_80E106ED-02E2-4828-A758-2A90E7C8D36C" name="daysExecuted" typeRef="number"/>
+              <dmn:literalExpression id="_10B070BE-03EA-464F-AD3B-B407E2792607">
+                <dmn:text>title.totalDays</dmn:text>
+              </dmn:literalExpression>
+            </dmn:contextEntry>
+            <dmn:contextEntry>
+              <dmn:variable id="_89D92D92-E680-40ED-A616-294D4A8B1370" name="startDate" typeRef="date"/>
+              <dmn:literalExpression id="_E9219D16-D029-4E67-9FBC-AD005D58A24B">
+                <dmn:text>startDate</dmn:text>
+              </dmn:literalExpression>
+            </dmn:contextEntry>
+            <dmn:contextEntry>
+              <dmn:variable id="_B88821C7-21DC-4606-819D-52425E8F3A04" name="endDate" typeRef="date"/>
+              <dmn:literalExpression id="_6FCE4951-1838-4D7B-AB16-A6E53B95D54B">
+                <dmn:text>endDate</dmn:text>
+              </dmn:literalExpression>
+            </dmn:contextEntry>
+          </dmn:context>
+        </dmn:contextEntry>
+        <dmn:contextEntry>
+          <dmn:variable id="_4ACCEF9E-2FE5-4405-A0ED-4FFF871D5644" name="remainingTitles" typeRef="tTitleList"/>
+          <dmn:literalExpression id="_6A63FD30-A746-4618-86DD-79760E3950A2">
+            <dmn:text>remove( titles, 1 )</dmn:text>
+          </dmn:literalExpression>
+        </dmn:contextEntry>
+        <dmn:contextEntry>
+          <dmn:variable id="_2BB89F07-4D47-4D13-8365-797B1B63882E" name="updatedTitles1" typeRef="tTitleList"/>
+          <dmn:literalExpression id="_D7C67CEE-1A94-47F7-AF42-0F528DA0916C">
+            <dmn:text>append( updatedTitles, updatedTitle )</dmn:text>
+          </dmn:literalExpression>
+        </dmn:contextEntry>
+        <dmn:contextEntry>
+          <dmn:literalExpression id="_6801979B-7312-45E8-88EA-F304E68BB995">
+            <dmn:text>if count( remainingTitles) &gt; 0  then SetTitles( remainingTitles, endDate, updatedTitles1) else updatedTitles1</dmn:text>
+          </dmn:literalExpression>
+        </dmn:contextEntry>
+      </dmn:context>
+    </dmn:encapsulatedLogic>
+  </dmn:businessKnowledgeModel>
+  <dmn:textAnnotation id="_E7CC6BA6-1CBF-4FB2-BDC8-78B8E8CE1603" textFormat="text/plain">
+    <dmn:text>Prisoner detention calculation rules</dmn:text>
+  </dmn:textAnnotation>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_5E5EF6D4-2D40-49D5-A96A-D7D2BC5BBCB5" name="DRG">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_6B309067-F3FE-4130-9F83-3FEAE1F71353">
+            <kie:width>50</kie:width>
+            <kie:width>177</kie:width>
+            <kie:width>1452</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_8F90647E-41AB-484A-92EF-89B2DDE0580C">
+            <kie:width>1452</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_115FCD07-18A0-4625-94DE-E1200E5CBC2E">
+            <kie:width>1452</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_5C8BB2DF-F9CF-42F8-A71D-A72EF34D9152">
+            <kie:width>1452</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_1E4A57A1-164A-4913-B098-A85885DF6A9C">
+            <kie:width>1452</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_8D9825D2-FAE1-4792-B7C0-CA98CF921EFA">
+            <kie:width>50</kie:width>
+            <kie:width>217</kie:width>
+            <kie:width>896</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_3966A530-0463-4031-BF1E-929BF98D5AE6">
+            <kie:width>896</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_14AC6443-174B-4FB0-AD60-71A129268E06">
+            <kie:width>896</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_29CADCAE-8EEF-47FD-86E3-C658E8341CC7">
+            <kie:width>50</kie:width>
+            <kie:width>1183</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_5CE24D2A-8625-4BDF-8E25-81EDEEC6839B">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>180</kie:width>
+            <kie:width>242</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_A676D7F1-2DE6-47F1-B9B4-0368F1E0BC7E">
+            <kie:width>50</kie:width>
+            <kie:width>592</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_C075161E-5F6E-4336-B891-EB0B4AE236C4">
+            <kie:width>50</kie:width>
+            <kie:width>193</kie:width>
+            <kie:width>667</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_540F3DB2-EC1D-4780-BE28-23753F0880A3">
+            <kie:width>667</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_9CBE27FA-19F7-46E1-A680-6A85DECC76D4">
+            <kie:width>667</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_F9920D30-5875-4E84-A5BA-EB3B60C844D3">
+            <kie:width>667</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_78C86D25-5B1E-49DE-9388-1698C841DFE9">
+            <kie:width>667</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_416B493F-51AB-4BC9-A2C4-7EAFC5C82160">
+            <kie:width>667</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_BF2B297F-A20A-4C21-AD3F-DE189B769688">
+            <kie:width>667</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_5DB876FC-CAC9-4E2F-8292-6E8BBF0D0C4E">
+            <kie:width>667</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_AB578DF3-CE07-4580-92B1-538522A6ACBF">
+            <kie:width>667</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_D5ECD29B-93A1-421E-9B12-80B62694189D">
+            <kie:width>667</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_18F7FB28-6B08-40F0-AB81-293A990058E8">
+            <kie:width>667</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_5B017FBD-66FE-452E-B3FB-B291D0BF8255">
+            <kie:width>190</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_5119C2F8-FF45-453A-BC99-BA1C0A7BEBAE">
+            <kie:width>50</kie:width>
+            <kie:width>120</kie:width>
+            <kie:width>434</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_DD3E9F7B-C8BC-467F-B69B-90DB39604CE1"/>
+          <kie:ComponentWidths dmnElementRef="_13B6D596-7D62-448F-A6D6-D7D3BBB995D3">
+            <kie:width>434</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_AFCD7C5E-E9CC-4FF4-948A-C6B1FC38CE4A">
+            <kie:width>434</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_A678254A-2A9C-43D5-AFC4-84A37ADC555D">
+            <kie:width>434</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_DDE9B4DA-D836-4F0E-BDD3-31EAC89F668A">
+            <kie:width>50</kie:width>
+            <kie:width>230</kie:width>
+            <kie:width>431</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_7126A1C2-C6E9-40E1-9EA6-A95D8A96BA19">
+            <kie:width>431</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_0E7AED3F-4670-4197-BB31-7A2C5887DD80">
+            <kie:width>431</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_75A55F26-4954-4C5F-846F-44B15CFEEAB6">
+            <kie:width>431</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_79C1CF13-0EBA-45A2-8CE7-3865F67D06DC">
+            <kie:width>431</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_E493D012-3CAB-4A9A-83F5-FB2B45B17A30">
+            <kie:width>50</kie:width>
+            <kie:width>120</kie:width>
+            <kie:width>241</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_980AA359-21DF-44A1-B452-C2D1F66BE1AE">
+            <kie:width>241</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_2516E488-AA5D-4B01-9DDA-F9F6F5D4A0A2">
+            <kie:width>241</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_0FE6EB80-EC7F-46EF-B22D-FA0EB924A139">
+            <kie:width>241</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_10B070BE-03EA-464F-AD3B-B407E2792607">
+            <kie:width>241</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_E9219D16-D029-4E67-9FBC-AD005D58A24B">
+            <kie:width>241</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_6FCE4951-1838-4D7B-AB16-A6E53B95D54B">
+            <kie:width>241</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_6A63FD30-A746-4618-86DD-79760E3950A2">
+            <kie:width>431</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_D7C67CEE-1A94-47F7-AF42-0F528DA0916C">
+            <kie:width>431</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_6801979B-7312-45E8-88EA-F304E68BB995">
+            <kie:width>431</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_9FAD377E-3536-47B7-85C3-9038E701C987">
+            <kie:width>50</kie:width>
+            <kie:width>731</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="dmnshape-drg-_16DC0A80-1FBE-4D5D-9E0C-74CB2DE914F3" dmnElementRef="_16DC0A80-1FBE-4D5D-9E0C-74CB2DE914F3" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="206" green="218" blue="232"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="229" y="23" width="484" height="308"/>
+        <dmndi:DMNLabel/>
+        <dmndi:DMNDecisionServiceDividerLine>
+          <di:waypoint x="229" y="143"/>
+          <di:waypoint x="713" y="143"/>
+        </dmndi:DMNDecisionServiceDividerLine>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_4E70F271-FF8D-4FEB-85E2-76763C9631DD" dmnElementRef="_4E70F271-FF8D-4FEB-85E2-76763C9631DD" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="188" green="223" blue="170"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="296.55373831775705" y="389" width="135" height="58"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_68BDCBE0-10A0-486D-AF9F-0F13727DE83D" dmnElementRef="_68BDCBE0-10A0-486D-AF9F-0F13727DE83D" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="154" green="152" blue="152"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="543.5" y="250" width="113" height="54"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_E7C36C95-9B44-45DD-82E1-32398053AFB3" dmnElementRef="_E7C36C95-9B44-45DD-82E1-32398053AFB3" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="136" green="134" blue="134"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="793" y="196.34210526315792" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_79DEAC9B-61ED-40C8-8D43-A854DB82486E" dmnElementRef="_79DEAC9B-61ED-40C8-8D43-A854DB82486E" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="163" green="159" blue="159"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="793" y="344" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_01DA6FFE-A82C-4160-BF05-01D886DC831D" dmnElementRef="_01DA6FFE-A82C-4160-BF05-01D886DC831D" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="193" green="226" blue="199"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="395" y="62" width="150" height="51"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_5A4F7801-FDF5-411D-AEC0-75D1166A5EFB" dmnElementRef="_5A4F7801-FDF5-411D-AEC0-75D1166A5EFB" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="130" green="130" blue="130"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="315" y="254" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_D2A34E7B-3CEC-4906-AB65-FC0F30CD3A3D" dmnElementRef="_D2A34E7B-3CEC-4906-AB65-FC0F30CD3A3D" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="157" green="155" blue="155"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="547" y="158.5" width="105" height="51"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_99FD8553-666A-493E-B71F-A89D86F2E1AD" dmnElementRef="_99FD8553-666A-493E-B71F-A89D86F2E1AD" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="145" green="145" blue="145"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="793" y="79.6842105263158" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_E7CC6BA6-1CBF-4FB2-BDC8-78B8E8CE1603" dmnElementRef="_E7CC6BA6-1CBF-4FB2-BDC8-78B8E8CE1603" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="61" y="7" width="167" height="69"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="dmnedge-drg-_66EEF678-5CEF-4609-93AF-E4EB9BCA54C8" dmnElementRef="_66EEF678-5CEF-4609-93AF-E4EB9BCA54C8">
+        <di:waypoint x="843" y="221.34210526315792"/>
+        <di:waypoint x="656.5" y="277"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_59E5820B-56E1-43C2-A358-7B8DE4514012" dmnElementRef="_59E5820B-56E1-43C2-A358-7B8DE4514012">
+        <di:waypoint x="843" y="369"/>
+        <di:waypoint x="656.5" y="277"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_0ECB91A1-079A-4C85-B414-ACADDBF0255E" dmnElementRef="_0ECB91A1-079A-4C85-B414-ACADDBF0255E">
+        <di:waypoint x="365" y="279"/>
+        <di:waypoint x="543.5" y="277"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_58CE10AF-79E8-4901-9A8C-49ED12D2BA33-AUTO-TARGET" dmnElementRef="_58CE10AF-79E8-4901-9A8C-49ED12D2BA33">
+        <di:waypoint x="365" y="279"/>
+        <di:waypoint x="470" y="113"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_7BFC4A7F-0894-44E9-BD8A-24220D3F9844" dmnElementRef="_7BFC4A7F-0894-44E9-BD8A-24220D3F9844">
+        <di:waypoint x="599.5" y="184"/>
+        <di:waypoint x="470" y="113"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_4BF568DE-AD5D-4863-A916-AE5542A08827-AUTO-TARGET" dmnElementRef="_4BF568DE-AD5D-4863-A916-AE5542A08827">
+        <di:waypoint x="364.05373831775705" y="418"/>
+        <di:waypoint x="365" y="304"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_15A62071-9662-4A58-B4AD-A706011BB2C4" dmnElementRef="_15A62071-9662-4A58-B4AD-A706011BB2C4">
+        <di:waypoint x="600" y="277"/>
+        <di:waypoint x="599.5" y="209.5"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_B6CED395-8D56-4913-94D2-F6B5E76EEFEE" dmnElementRef="_B6CED395-8D56-4913-94D2-F6B5E76EEFEE">
+        <di:waypoint x="843" y="104.6842105263158"/>
+        <di:waypoint x="652" y="184"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_E92F6811-DC59-4701-B30B-38BFDA2667EC" dmnElementRef="_E92F6811-DC59-4701-B30B-38BFDA2667EC">
+        <di:waypoint x="365" y="279"/>
+        <di:waypoint x="599.5" y="209.5"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>
