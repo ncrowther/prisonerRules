@@ -1,0 +1,27 @@
+{
+  "Prisoner": {
+    "id": "string",
+    "detentions": [
+      {
+        "titles": [
+          {
+            "name": "IVS",
+            "decisionDate": "2024-01-24",
+            "totalDays": 3
+          },
+          {
+            "name": "IVS",
+            "decisionDate": "2024-01-23",
+            "totalDays": 3
+          },
+          {
+            "name": "bewaring",
+            "decisionDate": "2024-01-25",
+            "totalDays": 10
+          }
+        ],
+        "startDate": "4024-01-24"
+      }
+    ]
+  }
+}
